@@ -1,6 +1,6 @@
 {
-  "name": "electron-pdf-window",
-  "version": "1.0.11",
+  "name": "electron-pdf-window-custom",
+  "version": "1.0.12",
   "description": "view PDF files in electron browser windows",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/gerhardberger/electron-pdf-window.git"
+    "url": "git://github.com/mvukovic/electron-pdf-window-custom.git"
   },
   "dependencies": {
     "deep-extend": "^0.4.1",
