@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
 Copyright 2012 Mozilla Foundation
 
@@ -20,6 +20,7 @@ Adobe CMap resources are covered by their own copyright but the same license:
 
 See https://github.com/adobe-type-tools/cmap-resources
 -->
+
 <html dir="ltr" mozdisallowselectionprint moznomarginboxes>
   <head>
     <meta charset="utf-8">
@@ -35,10 +36,46 @@ See https://github.com/adobe-type-tools/cmap-resources
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="locale/locale.properties">
 <script src="../build/pdf.js"></script>
-
-
     <script src="viewer.js"></script>
+    <script>
+      setTimeout(()=>addstyle(),100);
+      function addstyle(){
+        console.log('location',window.location.href);
+        var hashattributes = window.location.href.split('#')[1];
+        var hasharray = hashattributes.split('&');
+        var styleval = '';
+        hasharray.map((obj) =>{
+           var keyval = obj.split('=');
+           console.log('keyvalue==', keyval);
+           if(keyval[0] == 'style'){
+              styleval = keyval[1];
+           }
 
+        });
+        console.log('style from url ==', styleval, new Buffer(styleval, 'base64').toString('ascii'));
+      
+        let decodedstyle = new Buffer(styleval, 'base64').toString('ascii');
+        console.log('decoded style', decodedstyle);
+        // style.innerHTML = '.pdfViewer .page canvas  {'+ new Buffer(styleval, 'base64').toString('ascii')+'}';
+      // var style = document.createElement('style');
+
+        var style1 = document.createElement('style');
+        style1.innerHTML = '@media {.page {page-break-before: always;}}'
+        var style2 = document.createElement('style');
+        style2.innerHTML = '.pdfViewer .page canvas  {'+decodedstyle+'}';
+     /* style.innerHTML = 
+        '.pdfViewer .page canvas  {' +decodedstyle
+          +
+        '}';*/
+
+      // Get the first script tag
+      var ref = document.querySelector('script');
+
+      // Insert our new styles before the first script tag
+      ref.parentNode.insertBefore(style1, ref);
+      ref.parentNode.insertBefore(style2, ref);
+      }
+    </script>
   </head>
 
   <body tabindex="1" class="loadingInProgress">
@@ -215,8 +252,8 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </div>
                 <span id="scaleSelectContainer" class="dropdownToolbarButton">
                   <select id="scaleSelect" title="Zoom" tabindex="23" data-l10n-id="zoom">
-                    <option id="pageAutoOption" title="" value="auto" selected="selected" data-l10n-id="page_scale_auto">Automatic Zoom</option>
-                    <option id="pageActualOption" title="" value="page-actual" data-l10n-id="page_scale_actual">Actual Size</option>
+                    <option id="pageAutoOption" title="" value="auto" data-l10n-id="page_scale_auto">Automatic Zoom</option>
+                    <option id="pageActualOption" title="" value="page-actual" data-l10n-id="page_scale_actual" selected="selected">Actual Size</option>
                     <option id="pageFitOption" title="" value="page-fit" data-l10n-id="page_scale_fit">Page Fit</option>
                     <option id="pageWidthOption" title="" value="page-width" data-l10n-id="page_scale_width">Page Width</option>
                     <option id="customScaleOption" title="" value="custom" disabled="disabled" hidden="true"></option>
@@ -253,7 +290,7 @@ See https://github.com/adobe-type-tools/cmap-resources
         </menu>
 
         <div id="viewerContainer" tabindex="0">
-          <div id="viewer" class="pdfViewer"></div>
+          <div id="viewer" class="pdfViewer" ></div>
         </div>
 
         <div id="errorWrapper" hidden='true'>
@@ -353,7 +390,7 @@ See https://github.com/adobe-type-tools/cmap-resources
       </div>  <!-- overlayContainer -->
 
     </div> <!-- outerContainer -->
-    <div id="printContainer"></div>
+    <div id="printContainer" style="margin-left: 300px"></div>
   </body>
 </html>
 
