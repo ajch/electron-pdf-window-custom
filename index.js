@@ -90,6 +90,12 @@ PDFWindow.addSupport = function (browserWindow) {
     browserWindow.loadURL(url)
   })
 
+  browserWindow.webContents.on('print', (event, url) => {
+    console.log('index.js on print')
+    event.preventDefault()
+    //browserWindow.loadURL(url)
+  })
+
   browserWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault()
 
@@ -98,16 +104,19 @@ PDFWindow.addSupport = function (browserWindow) {
   })
 
   const load = browserWindow.loadURL
-  browserWindow.loadURL = function (url, options) {
+  browserWindow.loadURL = function (url, options, style, type) {
     isPDF(url).then(isit => {
       if (isit) {
+        console.log('style=1=1=1', style, options, type);
         load.call(browserWindow, `file://${pdfjsPath}?file=${
-          decodeURIComponent(url)}`, options)
+          decodeURIComponent(url)}#style=${style}&zoom=100&type=${type}`, options)
       } else {
         load.call(browserWindow, url, options)
       }
     })
   }
+
+  
 }
 
 module.exports = PDFWindow
