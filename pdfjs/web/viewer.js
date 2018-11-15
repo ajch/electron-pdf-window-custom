@@ -8269,6 +8269,8 @@
   
   
          
+          var PRINT_RESOLUTION = 300;
+          var PRINT_UNITS = PRINT_RESOLUTION / 72.0;
           //if (!scratchCanvas) {
   
           console.log('location==',window.location.href,);
@@ -8287,7 +8289,7 @@
              }
   
           });
-          printertype = printertype;
+          printertype = 'Barcode';
           console.log('tyyypee', printertype);
   
         /*  var ctx = scratchCanvas.getContext('2d');
@@ -8316,9 +8318,6 @@
               ];
   
         if(printertype == 'Barcode'){
-              var PRINT_RESOLUTION = 300;
-          var PRINT_UNITS = PRINT_RESOLUTION / 72.0;
-          
               var  scratchCanvas =  this.canvas;
               //}
               var size = this.viewport;
@@ -8364,9 +8363,7 @@
             return result;
   
         }else{
-          var PRINT_RESOLUTION = 150;
-          var PRINT_UNITS = PRINT_RESOLUTION / 72.0;
-          
+  
           var  scratchCanvas =  this.canvas;
           //}
           var size = this.viewport;
@@ -8382,7 +8379,7 @@
             transform: transform,
             viewport: this.viewport
             // viewport: this.pdfPage.getViewport(1)
-             //renderInteractiveForms: this.renderInteractiveForms
+           // renderInteractiveForms: this.renderInteractiveForms
           };
           var renderTask = this.pdfPage.render(renderContext);
           renderTask.onContinue = function (cont) {
